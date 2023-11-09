@@ -29,7 +29,7 @@ int main()
     return 0;
 }
 
-// Custom function to calculate the ceiling value.
+// User-defined function to calculate the ceiling value.
 int Ceiling(double origNum)
 {
     // Extract the integer part of the number.
@@ -48,7 +48,7 @@ int Ceiling(double origNum)
     }
 }
 
-// Custom function to calculate the floor value.
+// User-defined function to calculate the floor value.
 int Floor(double origNum)
 {
     // Extract the integer part of the number.
@@ -67,7 +67,7 @@ int Floor(double origNum)
     }
 }
 
-// Custom function to calculate the rounded value.
+// User-defined function to calculate the rounded value.
 double Round(double origNum)
 {
     // Multiply by 100 to move two decimal places to the left.
