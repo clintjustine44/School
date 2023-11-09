@@ -35,7 +35,6 @@ int main()
     priceTotal = carpetCost + laborCost;
     discountTotal = (discount/100) * priceTotal;
     subtotal = priceTotal - discountTotal;
-
     tax = TAX_RATE * subtotal;
     total = tax + subtotal;
 
