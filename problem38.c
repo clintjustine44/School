@@ -1,35 +1,43 @@
 #include <stdio.h>
 
-int Ceiling(float origNum);
-int Floor(float origNum);
-float Round(float origNum);
+int Ceiling(double origNum);
+int Floor(double origNum);
+double Round(double origNum);
 
 int main()
 {
-    float origNum;
+    double origNum;
     int ceilingValue;
     int floorValue;
-    float roundedValue;
+    double roundedValue;
 
-
+    // Input
     printf("Enter a floating-point number: \n");
-    scanf("%f", &origNum);
+    scanf("%lf", &origNum);
 
+    // Process
     ceilingValue = Ceiling(origNum);
     floorValue = Floor(origNum);
     roundedValue = Round(origNum);
 
-    printf("Original Number: %.6f\n", origNum);
+    // Output
+    printf("Original Number: %.6lf\n", origNum);
     printf("Ceiling Value: %d\n", ceilingValue);
     printf("Floor Value: %d\n", floorValue);
-    printf("Rounded Value: %.6f\n", roundedValue);
+    printf("Rounded Value: %.6lf\n", roundedValue);
 
     return 0;
 }
 
-int Ceiling(float origNum)
+// Custom function to calculate the ceiling value.
+int Ceiling(double origNum)
 {
+    // Extract the integer part of the number.
     int intPart = (int)origNum;
+
+    /* Check if there is a fractional part
+    ** If there is, add 1 to the integer part, else use the integer part
+    */ 
     if (origNum > intPart)
     {
         return (intPart += 1);
@@ -40,9 +48,15 @@ int Ceiling(float origNum)
     }
 }
 
-int Floor(float origNum)
+// Custom function to calculate the floor value.
+int Floor(double origNum)
 {
+    // Extract the integer part of the number.
     int intPart = (int)origNum;
+    
+    /* Checks if there is a fractional part.
+    ** If there is, use the integer part, else subtract 1 from the integer part
+    */
     if (origNum < intPart)
     {
         return (intPart -= 1);
@@ -53,17 +67,14 @@ int Floor(float origNum)
     }
 }
 
-float Round(float origNum)
+// Custom function to calculate the rounded value.
+double Round(double origNum)
 {
-    int intPart = (int)origNum;
-    float decimalPart = origNum - intPart;
-    if (decimalPart >= 0.5)
-    {
-        return (intPart += 1);
-    }
-    else
-    {
-        return (intPart);
-    }
+    // Multiply by 100 to move two decimal places to the left.
+    int temp = (int)(origNum * 100 + 0.5);
 
+    // Divide by 100 to get the new value that is rounded to two decimal places.
+    float roundedNumber = (float)temp / 100.0;
+    
+    return roundedNumber;
 }
