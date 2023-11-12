@@ -31,7 +31,7 @@ int main()
     double tax; 
     double priceTotal;
 
-    // Calls a function that reads data from the user.
+    // Calls function that reads data from the user.
     readData(&length, &width, &discount, &pricePerSqrFt);
 
     // Calls functions that calculates various data.
@@ -93,7 +93,7 @@ void calcTotalPrice(double subtotal, double *tax, double *priceTotal)
     *priceTotal = subtotal + *tax;
 }
 
-// This function to calculates the discount and subtotal.
+// This function calculates the discount and subtotal.
 void calcSubtotal(double installedPrice, double discount, double *subtotal, double *discountTotal)
 {
     *discountTotal = (discount / 100) * installedPrice;
