@@ -28,22 +28,22 @@ int main()
     double tax; 
     double priceTotal;
 
-    // Calls a function that reads data from the user.
+    // Calls the function that reads data from the user.
     readData(&length, &width, &discount, &pricePerSqrFt);
 
-    // Calls functions that calculates various data.
+    // Calls the functions that calculates various data.
     calcInstalledPrice(length, width, pricePerSqrFt, &installedPrice, &area, &carpetCost, &laborCost);
     calcSubtotal(installedPrice, discount, &subtotal, &discountTotal);
     calcTotalPrice(subtotal, &tax, &priceTotal);
 
-    // Calls function that prints out the results.
+    // Calls the functions that prints out the results.
     printMeasure(length, width, area);
     printCharges(area, carpetCost, laborCost, installedPrice, discount, discountTotal, subtotal, tax, priceTotal);
 
     return 0;
 }
 
-// Function to read data from the user.
+// This function reads data from the user.
 void readData(double *a, double *b, double *c, double *d)
 {
     printf("Length of room (feet)? \n");
@@ -72,7 +72,7 @@ void calcTotalPrice(double subtotal, double *tax, double *priceTotal)
     *priceTotal = subtotal + *tax;
 }
 
-// This function to calculates the discount and subtotal.
+// This function calculates the discount and subtotal.
 void calcSubtotal(double installedPrice, double discount, double *subtotal, double *discountTotal)
 {
     *discountTotal = (discount / 100) * installedPrice;
