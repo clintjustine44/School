@@ -6,9 +6,6 @@
 
 // User-defined functions.
 void readData(double *a, double *b, double *c, double *d);
-void calcArea(int length, int width, double *area);
-void calcCarpetCost(double area, double pricePerSqrFt, double *carpetCost);
-void calcLaborCost(double area, double *laborCost);
 void calcInstalledPrice(int length, int width, double pricePerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost);
 void calcTotalPrice(double subtotal, double *tax, double *priceTotal);
 void calcSubtotal(double installedPrice, double discount, double *subtotal, double *discountTotal);
@@ -59,30 +56,12 @@ void readData(double *a, double *b, double *c, double *d)
     scanf("%lf", d);
 }
 
-// Function to calculate the area.
-void calcArea(int length, int width, double *area)
-{
-    *area = length * width;
-}
-
-// This function to calculate the carpet cost
-void calcCarpetCost(double area, double pricePerSqrFt, double *carpetCost)
-{
-    *carpetCost = area * pricePerSqrFt;
-}
-
-// This function to calculate the labor cost
-void calcLaborCost(double area, double *laborCost)
-{
-    *laborCost = area * LABOR;
-}
-
 // This function calls three subfunctions then calculates the installed price.
 void calcInstalledPrice(int length, int width, double pricePerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost)
 {
-    calcArea(length, width, area);
-    calcCarpetCost(*area, pricePerSqrFt, carpetCost);
-    calcLaborCost(*area, laborCost);
+    *area = length * width;
+    *carpetCost = *area * pricePerSqrFt;
+    *laborCost = *area * LABOR;
     *installedPrice = *carpetCost + *laborCost;
 }
 
