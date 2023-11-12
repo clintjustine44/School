@@ -46,7 +46,7 @@ int main()
     return 0;
 }
 
-// Function to read data from the user.
+// This function reads data from the user.
 void readData(double *a, double *b, double *c, double *d)
 {
     printf("Length of room (feet)? \n");
@@ -59,19 +59,19 @@ void readData(double *a, double *b, double *c, double *d)
     scanf("%lf", d);
 }
 
-// Function to calculate the area.
+// This function calculates the area.
 void calcArea(int length, int width, double *area)
 {
     *area = length * width;
 }
 
-// This function to calculate the carpet cost
+// This function to calculates the carpet cost
 void calcCarpetCost(double area, double pricePerSqrFt, double *carpetCost)
 {
     *carpetCost = area * pricePerSqrFt;
 }
 
-// This function to calculate the labor cost
+// This function to calculates the labor cost
 void calcLaborCost(double area, double *laborCost)
 {
     *laborCost = area * LABOR;
