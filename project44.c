@@ -31,7 +31,7 @@ int main()
     // Calls the function that reads data from the user.
     readData(&length, &width, &discount, &pricePerSqrFt);
 
-    // Calls the functions that calculates various data.
+    // Calls three functions that calculates various data/values.
     calcInstalledPrice(length, width, pricePerSqrFt, &installedPrice, &area, &carpetCost, &laborCost);
     calcSubtotal(installedPrice, discount, &subtotal, &discountTotal);
     calcTotalPrice(subtotal, &tax, &priceTotal);
@@ -56,7 +56,7 @@ void readData(double *a, double *b, double *c, double *d)
     scanf("%lf", d);
 }
 
-// This function calls three subfunctions then calculates the installed price.
+// This function calculates the area, carpetCost, laborCost, and installedPrice.
 void calcInstalledPrice(int length, int width, double pricePerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost)
 {
     *area = length * width;
@@ -65,7 +65,7 @@ void calcInstalledPrice(int length, int width, double pricePerSqrFt, double *ins
     *installedPrice = *carpetCost + *laborCost;
 }
 
-// This function calculates the tax and the total price.
+// This function calculates the total price and tax.
 void calcTotalPrice(double subtotal, double *tax, double *priceTotal)
 {
     *tax = TAX_RATE * subtotal;
