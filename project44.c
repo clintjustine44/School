@@ -54,6 +54,7 @@ void readData(int *a, int *b, int *c, double *d)
     scanf("%d", c);
     printf("Cost per square foot (xxx.xx)? \n");
     scanf("%lf", d);
+    return;
 }
 
 // This function calculates the area, carpetCost, laborCost, and installedPrice.
@@ -63,6 +64,7 @@ void calcInstalledPrice(int length, int width, double pricePerSqrFt, double *ins
     *carpetCost = *area * pricePerSqrFt;
     *laborCost = *area * LABOR;
     *installedPrice = *carpetCost + *laborCost;
+    return;
 }
 
 // This function calculates the total price and tax.
@@ -70,6 +72,7 @@ void calcTotalPrice(double subtotal, double *tax, double *priceTotal)
 {
     *tax = TAX_RATE * subtotal;
     *priceTotal = subtotal + *tax;
+    return;
 }
 
 // This function calculates the discount and subtotal.
@@ -77,6 +80,7 @@ void calcSubtotal(double installedPrice, int discount, double *subtotal, double 
 {
     *discountTotal = ((double)discount / 100) * installedPrice;
     *subtotal = installedPrice - *discountTotal;
+    return;
 }
 
 // This function prints the measurements.
@@ -86,6 +90,7 @@ void printMeasure(int length, int width, int area)
     printf("Length\t\t\t\t\t\t%.0d ft\n", length);
     printf("Width\t\t\t\t\t\t%.0d ft\n", width);
     printf("Area\t\t\t\t\t\t%.0d square ft\n", area);
+    return;
 }
 
 // This function prints the charges.
@@ -103,4 +108,5 @@ void printCharges(double area, double carpetCost, double laborCost, double insta
     printf("SUBTOTAL\t\t\t\t\t$%.2lf\n", subtotal);
     printf("Tax\t\t\t\t\t\t%.2lf\n", tax);
     printf("TOTAL\t\t\t\t\t\t$%.2lf", priceTotal);
+    return;
 }
