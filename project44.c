@@ -5,8 +5,8 @@
 #define TAX_RATE 0.085
 
 // User-defined functions.
-void readData(int *a, int *b, int *c, double *d);
-void calcInstalledPrice(int length, int width, double pricePerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost);
+void readData(int *length, int *width, int *discount, double *costPerSqrFt);
+void calcInstalledPrice(int length, int width, double costPerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost);
 void calcTotalPrice(double subtotal, double *tax, double *priceTotal);
 void calcSubtotal(double installedPrice, int discount, double *subtotal, double *discountTotal);
 void printMeasure(int length, int width, int area);
@@ -19,7 +19,7 @@ int main()
     int width;
     int discount;
     double area;
-    double pricePerSqrFt;
+    double costPerSqrFt;
     double carpetCost;
     double laborCost;
     double installedPrice;
@@ -29,10 +29,10 @@ int main()
     double priceTotal;
 
     // Calls the function that reads data from the user.
-    readData(&length, &width, &discount, &pricePerSqrFt);
+    readData(&length, &width, &discount, &costPerSqrFt);
 
     // Calls three functions that calculates various data/values.
-    calcInstalledPrice(length, width, pricePerSqrFt, &installedPrice, &area, &carpetCost, &laborCost);
+    calcInstalledPrice(length, width, costPerSqrFt, &installedPrice, &area, &carpetCost, &laborCost);
     calcSubtotal(installedPrice, discount, &subtotal, &discountTotal);
     calcTotalPrice(subtotal, &tax, &priceTotal);
 
@@ -44,24 +44,24 @@ int main()
 }
 
 // This function reads data from the user.
-void readData(int *a, int *b, int *c, double *d)
+void readData(int *length, int *width, int *discount, double *costPerSqrFt)
 {
     printf("Length of room (feet)? \n");
-    scanf("%d", a);
+    scanf("%d", length);
     printf("Width of the room (feet)? \n");
-    scanf("%d", b);
+    scanf("%d", width);
     printf("Customer discount (percent)? \n");
-    scanf("%d", c);
+    scanf("%d", discount);
     printf("Cost per square foot (xxx.xx)? \n");
-    scanf("%lf", d);
+    scanf("%lf", costPerSqrFt);
     return;
 }
 
 // This function calculates the area, carpetCost, laborCost, and installedPrice.
-void calcInstalledPrice(int length, int width, double pricePerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost)
+void calcInstalledPrice(int length, int width, double costPerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost)
 {
     *area = length * width;
-    *carpetCost = *area * pricePerSqrFt;
+    *carpetCost = *area * costPerSqrFt;
     *laborCost = *area * LABOR;
     *installedPrice = *carpetCost + *laborCost;
     return;
@@ -78,7 +78,7 @@ void calcTotalPrice(double subtotal, double *tax, double *priceTotal)
 // This function calculates the discount and subtotal.
 void calcSubtotal(double installedPrice, int discount, double *subtotal, double *discountTotal)
 {
-    *discountTotal = ((double)discount / 100) * installedPrice;
+    *discountTotal = (discount / 100.0) * installedPrice;
     *subtotal = installedPrice - *discountTotal;
     return;
 }
