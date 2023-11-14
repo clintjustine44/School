@@ -7,8 +7,8 @@
 // User-defined functions.
 void readData(int *length, int *width, int *discount, double *costPerSqrFt);
 void calcInstalledPrice(int length, int width, double costPerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost);
-void calcTotalPrice(double subtotal, double *tax, double *priceTotal);
 void calcSubtotal(double installedPrice, int discount, double *subtotal, double *discountTotal);
+void calcTotalPrice(double subtotal, double *tax, double *priceTotal);
 void printMeasure(int length, int width, int area);
 void printCharges(double area, double carpetCost, double laborCost, double installedPrice, int discount, double discountTotal, double subtotal, double tax, double priceTotal);
 
@@ -67,19 +67,19 @@ void calcInstalledPrice(int length, int width, double costPerSqrFt, double *inst
     return;
 }
 
-// This function calculates the total price and tax.
-void calcTotalPrice(double subtotal, double *tax, double *priceTotal)
-{
-    *tax = TAX_RATE * subtotal;
-    *priceTotal = subtotal + *tax;
-    return;
-}
-
 // This function calculates the discount and subtotal.
 void calcSubtotal(double installedPrice, int discount, double *subtotal, double *discountTotal)
 {
     *discountTotal = (discount / 100.0) * installedPrice;
     *subtotal = installedPrice - *discountTotal;
+    return;
+}
+
+// This function calculates the total price and tax.
+void calcTotalPrice(double subtotal, double *tax, double *priceTotal)
+{
+    *tax = TAX_RATE * subtotal;
+    *priceTotal = subtotal + *tax;
     return;
 }
 
