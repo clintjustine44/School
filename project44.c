@@ -4,85 +4,147 @@
 #define LABOR 0.35
 #define TAX_RATE 0.085
 
-// User-defined functions.
-void readData(int *length, int *width, int *discount, double *costPerSqrFt);
-void calcInstalledPrice(int length, int width, double costPerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost);
-void calcSubtotal(double installedPrice, int discount, double *subtotal, double *discountTotal);
-void calcTotalPrice(double subtotal, double *tax, double *priceTotal);
+// Types of functions declaration to get input.
+int getLength (void);
+int getWidth (void);
+int getDiscount (void);
+double getCostPerSqrFt(void);
+
+// Types of function delcaration that are function processes.
+int calcArea (int lengthValue, int widthValue);
+double carpetCost (double costPerSquareFoot, double calcArea);
+double laborCost (double squareFoot);
+double installedPrice (double carpetCost, double laborCost);
+double discountPrice (double installedPrice, double discount);
+double subTotalPrice (double installed_price, double discountPrice);
+double taxPrice (double subTotalPrice);
+double totalPriceCost (double subTotalPrice, double taxPrice);
+
+// Types of function that prints the output.
 void printMeasure(int length, int width, int area);
-void printCharges(double area, double carpetCost, double laborCost, double installedPrice, int discount, double discountTotal, double subtotal, double tax, double priceTotal);
+void printCharges(double costPerSqrFt, double carpetCost, double laborCost, double installedPrice, int discount, double discountTotal, double subtotal, double tax, double priceTotal);
+
 
 int main()
 {
+
     // Variables declarations to hold various data.
-    int length; 
+    int length;
     int width;
     int discount;
-    double area;
     double costPerSqrFt;
-    double carpetCost;
-    double laborCost;
-    double installedPrice;
-    double discountTotal; 
+    int area;
+    double carpet;
+    double labor;
+    double installed_price;
+    double discountTotal;
     double subtotal;
-    double tax; 
+    double tax;
     double priceTotal;
 
-    // Calls the function that reads data from the user.
-    readData(&length, &width, &discount, &costPerSqrFt);
+    // Initiziale and calling function that gets the input.
+    length = getLength();
+    width = getWidth();
+    discount = getDiscount();
+    costPerSqrFt = getCostPerSqrFt();
 
-    // Calls three functions that calculates various data/values.
-    calcInstalledPrice(length, width, costPerSqrFt, &installedPrice, &area, &carpetCost, &laborCost);
-    calcSubtotal(installedPrice, discount, &subtotal, &discountTotal);
-    calcTotalPrice(subtotal, &tax, &priceTotal);
+    // Initiziale and calls the functions that calculates various data.
+    area = calcArea(length, width);
+    carpet = carpetCost(costPerSqrFt, area);
+    labor = laborCost(area);
+    installed_price = installedPrice(carpet, labor);
+    discountTotal = discountPrice(installed_price, discount);
+    subtotal = subTotalPrice(installed_price, discountTotal);
+    tax = taxPrice(subtotal);
+    priceTotal = totalPriceCost(subtotal, tax);
 
-    // Calls the functions that prints out the results.
+    // Caliing the function that prints the output)
     printMeasure(length, width, area);
-    printCharges(area, carpetCost, laborCost, installedPrice, discount, discountTotal, subtotal, tax, priceTotal);
+    printCharges(costPerSqrFt, carpet, labor, installed_price, discount, discountTotal, subtotal, tax, priceTotal); 
+
 
     return 0;
+
 }
 
-// This function reads data from the user.
-void readData(int *length, int *width, int *discount, double *costPerSqrFt)
+
+// Function definitions where it gets the input and prompts the user
+int getLength (void)
 {
-    printf("Length of room (feet)? \n");
-    scanf("%d", length);
-    printf("Width of the room (feet)? \n");
-    scanf("%d", width);
-    printf("Customer discount (percent)? \n");
-    scanf("%d", discount);
-    printf("Cost per square foot (xxx.xx)? \n");
-    scanf("%lf", costPerSqrFt);
-    return;
-}
+    int length;
 
-// This function calculates the area, carpetCost, laborCost, and installedPrice.
-void calcInstalledPrice(int length, int width, double costPerSqrFt, double *installedPrice, double *area, double *carpetCost, double *laborCost)
+    printf("Length of room (feet)?\t\t");
+    scanf("%d", &length);
+
+    return length;
+
+}
+int getWidth (void)
 {
-    *area = length * width;
-    *carpetCost = *area * costPerSqrFt;
-    *laborCost = *area * LABOR;
-    *installedPrice = *carpetCost + *laborCost;
-    return;
+    int width;
+
+    printf("Width of room (feet)?\t\t");
+    scanf("%d", &width);
+
+    return width;
 }
 
-// This function calculates the discount and subtotal.
-void calcSubtotal(double installedPrice, int discount, double *subtotal, double *discountTotal)
+int getDiscount (void)
 {
-    *discountTotal = (discount / 100.0) * installedPrice;
-    *subtotal = installedPrice - *discountTotal;
-    return;
+   int discount;
+    
+    printf("Customer discount (percent)?\t");
+    scanf("%d", &discount);
+
+    return discount;
 }
 
-// This function calculates the total price and tax.
-void calcTotalPrice(double subtotal, double *tax, double *priceTotal)
+
+// Function Definition that processed all the calculations that is needed.
+double getCostPerSqrFt(void)
 {
-    *tax = TAX_RATE * subtotal;
-    *priceTotal = subtotal + *tax;
-    return;
+    double costPerSqrFt;
+    printf("Cost per square foot (xxx.xx)?\t");
+    scanf("%lf", &costPerSqrFt);
+
+    return costPerSqrFt;
 }
 
+int calcArea (int lengthValue, int widthValue)
+{
+    return  lengthValue * widthValue;
+}
+double carpetCost (double costPerSquareFoot, double calcArea)
+{
+    return costPerSquareFoot * calcArea;
+}
+double laborCost (double squareFoot)
+{
+    return squareFoot * LABOR;
+}
+double installedPrice (double carpetCost, double laborCost)
+{
+    return carpetCost + laborCost;
+}
+double discountPrice (double installedPrice, double discount)
+{
+    return installedPrice * (discount / 100);
+}
+double subTotalPrice (double installed_price, double discountPrice)
+{
+    return installed_price - discountPrice;
+}
+double taxPrice (double subTotalPrice)
+{
+    return subTotalPrice * TAX_RATE;
+}
+double totalPriceCost (double subTotalPrice, double taxPrice)
+{
+    return subTotalPrice + taxPrice;
+}
+
+
+// These functions prints the output that was being inputted by the user and also the calculations.
 // This function prints the measurements.
 void printMeasure(int length, int width, int area)
 {
@@ -94,12 +156,12 @@ void printMeasure(int length, int width, int area)
 }
 
 // This function prints the charges.
-void printCharges(double area, double carpetCost, double laborCost, double installedPrice, int discount, double discountTotal, double subtotal, double tax, double priceTotal)
+void printCharges(double costPerSqrFt, double carpetCost, double laborCost, double installedPrice, int discount, double discountTotal, double subtotal, double tax, double priceTotal)
 {
     printf("\t\t\tCHARGES\n\n");
     printf("DESCRIPTION\t\tCOST/SQ.FT.\t\tCHARGE\n");
     printf("-----------\t\t-----------\t\t----------\n");
-    printf("Carpet\t\t\t%.2lf\t\t\t$%.2lf\n", area, carpetCost);
+    printf("Carpet\t\t\t%.2lf\t\t\t$%.2lf\n", costPerSqrFt, carpetCost);
     printf("Labor\t\t\t%.2lf\t\t\t%.2lf\n", LABOR, laborCost);
     printf("\t\t\t\t\t\t----------\n");
     printf("INSTALLED PRICE\t\t\t\t\t$%.2lf\n", installedPrice);
