@@ -1,87 +1,45 @@
-/* This program determines a student's grade.
-**    Written by : Clint Justine A. Nepomuceno
-**    Date : 11/23/2023
-*/
-
 #include <stdio.h>
 
-// User-defined functions to use in the program.
-void readScores(float *score1, float *score2, float *score3);
-char calculateGrade(float score1, float score2, float score3);
-void printResults(char grade);
+void findMaxNum(double rates[], int *location, double *max);
+void findMinNum(double rates[], int *location, double* min);
 
-int main()
-{
-    // Declare variables to store the values of test scores.
-    float test1;
-    float test2;
-    float test3;
-    // Declare variable to store the grade character.
-    char grade;
-
-    // This calls readScores function to ask the user for inputs.
-    readScores(&test1, &test2, &test3);
-    // This calls a function that determines the grade.
-    grade = calculateGrade(test1, test2, test3);
-
-    // This calls a function that print out the results.
-    printResults(grade);
+int main() {
+    double rates[] = {18.24, 25.63, 5.94, 33.92, 3.71, 32.84, 35.93, 18.24, 6.9};
+    int maxLoc = 0;
+    int minLoc = 0;
+    double maxNum = rates[0];
+    double minNum = rates[0];
+    
+    findMaxNum(rates, &maxLoc, &maxNum);
+    findMinNum(rates, &minLoc, &minNum);
+    
+    printf("Maximum value: %.2lf\n", maxNum);
+    printf("Location: %d", maxLoc);
+    printf("Minimum value: %.2lf", minNum);
+    printf("Location: %d", maxLoc);
 
     return 0;
 }
 
-// Function to read test scores and return it to the main function with a pointer.
-void readScores(float *score1, float *score2, float *score3)
+void findMaxNum(double rates[], int *location, double *max)
 {
-    printf("Enter the first test score (between 0 and 100): ");
-    scanf("%f", score1);
-
-    printf("Enter the second test score (between 0 and 100): ");
-    scanf("%f", score2);
-
-    printf("Enter the third test score (between 0 and 100): ");
-    scanf("%f", score3);
-}
-
-// Function to determine the grade w/ if and else... if statements.
-char calculateGrade(float score1, float score2, float score3)
-{
-    float averageScore = (score1 + score2 + score3) / 3;
-
-    if (averageScore >= 90)
-    {
-        return 'A';
-    }
-        else if (averageScore >= 70 && averageScore < 90)
-        {
-            if (score3 > 90)
-            {
-                return 'A';
-            }
-            else
-            {
-                return 'B';
-            }
-        }
-            else if (averageScore >= 50 && averageScore < 70)
-            {
-                if ((score2 + score3) / 2 > 70)
-                {
-                    return 'C';
-                }
-                else
-                {
-                    return 'D';
-                }
-            }
-    else
-    {
-        return 'F';
+    for (int i = 0; i < 9; i++) {     
+       if(rates[i] > max)    
+       {
+           max = rates[i];
+           location = i;
+       }
     }
 }
 
-// Function that prints out the result.
-void printResults(char grade)
+void findMinNum(double rates[], int *location, double *min)
 {
-    printf("The student's grade is: %c\n", grade);
+    for (int i = 0; i < 9; i++) {     
+       if(rates[i] < low)    
+       {
+           min = rates[i];
+           location = i;
+       }
+    }
+
 }
