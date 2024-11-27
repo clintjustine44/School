@@ -12,6 +12,7 @@ public class LoginCalculatorApp {
         JFrame frame = new JFrame("Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
 
         // Login panel
         JPanel loginPanel = new JPanel();
@@ -22,13 +23,13 @@ public class LoginCalculatorApp {
         JLabel userLabel = new JLabel("Username:");
         userLabel.setForeground(Color.WHITE);
         JTextField userField = new JTextField();
-        userField.setBackground(Color.GRAY);
+        userField.setBackground(Color.darkGray);
         userField.setForeground(Color.WHITE);
 
         JLabel passLabel = new JLabel("Password:");
         passLabel.setForeground(Color.WHITE);
         JPasswordField passField = new JPasswordField();
-        passField.setBackground(Color.GRAY);
+        passField.setBackground(Color.darkGray);
         passField.setForeground(Color.WHITE);
 
         JButton loginButton = new JButton("Login");
@@ -69,18 +70,19 @@ public class LoginCalculatorApp {
         JFrame calcFrame = new JFrame("Calculator");
         calcFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         calcFrame.setSize(400, 500);
+        calcFrame.setLocationRelativeTo(null);
 
         // Calculator panel
         JPanel calcPanel = new JPanel();
         calcPanel.setLayout(new BorderLayout());
-        calcPanel.setBackground(Color.DARK_GRAY);
+        calcPanel.setBackground(Color.gray);
 
         // Display area for calculator
         JTextField display = new JTextField();
         display.setEditable(false);
         display.setHorizontalAlignment(SwingConstants.RIGHT);
         display.setFont(new Font("Arial", Font.BOLD, 24));
-        display.setBackground(Color.GRAY);
+        display.setBackground(Color.DARK_GRAY);
         display.setForeground(Color.WHITE);
         calcPanel.add(display, BorderLayout.NORTH);
 
@@ -93,7 +95,7 @@ public class LoginCalculatorApp {
                 "4", "5", "6", "*",
                 "1", "2", "3", "-",
                 "0", ".", "=", "+",
-                "C", "CE", "", ""
+                "C", "CE"
         };
 
         for (String text : buttons) {
@@ -101,17 +103,8 @@ public class LoginCalculatorApp {
             button.setFont(new Font("Arial", Font.BOLD, 18));
             button.setFocusPainted(false);
 
-            if ("".equals(text)) {
-
-                button.setVisible(false);
-            } else if ("C".equals(text)) {
-
-                button.setPreferredSize(new Dimension(75, 50));
-                button.setBackground(Color.ORANGE);
-                button.setForeground(Color.WHITE);
-                buttonPanel.add(button);
-            } else if ("CE".equals(text)) {
-                button.setPreferredSize(new Dimension(75, 50));
+            if ("C".equals(text) || "CE".equals(text)) {
+                button.setPreferredSize(new Dimension(200, 50));
                 button.setBackground(Color.ORANGE);
                 button.setForeground(Color.WHITE);
                 buttonPanel.add(button);
@@ -121,7 +114,7 @@ public class LoginCalculatorApp {
                 button.setForeground(Color.WHITE);
             } else {
                 // Other buttons: grey background, white text
-                button.setBackground(Color.GRAY);
+                button.setBackground(Color.DARK_GRAY);
                 button.setForeground(Color.WHITE);
             }
 
@@ -188,9 +181,8 @@ public class LoginCalculatorApp {
                     return "Error";
             }
 
-            // Return result as integer if possible, otherwise as a double with 2 decimal
-            // places.
-            return (result == (int) result) ? String.valueOf((int) result) : String.format("%.2f", result);
+            // Return result as integer if possible, otherwise as a double with decimals.
+            return (result == (int) result) ? String.valueOf((int) result) : String.valueOf(result);
         } catch (Exception e) {
             return "Error";
         }
