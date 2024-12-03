@@ -1,40 +1,188 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.io.*;
+import java.util.*;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
-public class IponPadayon {
+public class IponPadayonTest {
 
     private static double wallet = 0;
     private static double expenses = 0;
     private static ArrayList<String> expenseList = new ArrayList<>();
+    private static ArrayList<String[]> users = new ArrayList<>();  // Stores [username, password]
 
     public static void main(String[] args) {
         loadData();
-        SwingUtilities.invokeLater(MainMenu::new);
+        loadUserData();  // Load user data from userdata.txt
+        SwingUtilities.invokeLater(LoginScreen::new); // Show login screen first
     }
 
-    static class MainMenu {
+    // Load user data from userdata.txt
+    private static void loadUserData() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("userdata.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] user = line.split(":");
+                if (user.length == 2) {
+                    users.add(user);  // Store each user as a [username, password] pair
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("No previous user data found. Starting fresh.");
+        }
+    }
 
+    // Save user data to userdata.txt
+    private static void saveUserData() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("userdata.txt"))) {
+            for (String[] user : users) {
+                writer.println(user[0] + ":" + user[1]);  // Save username and password separated by ":"
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving user data: " + e.getMessage());
+        }
+    }
+
+    // Login Screen Class
+    static class LoginScreen {
+        
+        LoginScreen() {
+            JFrame frame = new JFrame("Login");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(300, 150);
+            frame.setLocationRelativeTo(null);
+
+            JPanel loginPanel = new JPanel();
+            loginPanel.setLayout(new GridLayout(3, 2));
+            loginPanel.setBackground(new Color(107,189,142));
+
+            JLabel userLabel = new JLabel("Username:");
+            userLabel.setForeground(Color.WHITE);
+            JTextField userField = new JTextField();
+            userField.setBackground(Color.WHITE);
+            userField.setForeground(Color.BLACK);
+
+            JLabel passLabel = new JLabel("Password:");
+            passLabel.setForeground(Color.WHITE);
+            JPasswordField passField = new JPasswordField();
+            passField.setBackground(Color.WHITE);
+            passField.setForeground(Color.BLACK);
+
+            JButton loginButton = new JButton("Login");
+            loginButton.setBackground(new Color(64,237,139));
+            loginButton.setForeground(Color.WHITE);
+
+            JButton signUpButton = new JButton("Sign Up");
+            signUpButton.setBackground(new Color(64,237,139));
+            signUpButton.setForeground(Color.WHITE);
+
+            loginPanel.add(userLabel);
+            loginPanel.add(userField);
+            loginPanel.add(passLabel);
+            loginPanel.add(passField);
+            loginPanel.add(signUpButton);
+            loginPanel.add(loginButton);
+
+            frame.add(loginPanel);
+            frame.setVisible(true);
+
+            loginButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String username = userField.getText();
+                    String password = new String(passField.getPassword());
+
+                    // Check if the entered username and password match any saved user
+                    boolean isAuthenticated = false;
+                    for (String[] user : users) {
+                        if (user[0].equals(username) && user[1].equals(password)) {
+                            isAuthenticated = true;
+                            break;
+                        }
+                    }
+
+                    if (isAuthenticated) {
+                        JOptionPane.showMessageDialog(frame, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        frame.dispose();  // Close login window
+                        SwingUtilities.invokeLater(MainMenu::new);  // Show main menu after login
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Incorrect username or password.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+
+            signUpButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Open registration form
+                    JFrame registerFrame = new JFrame("Sign Up");
+                    registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    registerFrame.setSize(300, 200);
+                    registerFrame.setLocationRelativeTo(null);
+
+                    JPanel registerPanel = new JPanel(new GridLayout(3, 2));
+                    registerPanel.setBackground(Color.DARK_GRAY);
+
+                    JLabel registerUsernameLabel = new JLabel("Username:");
+                    registerUsernameLabel.setForeground(Color.WHITE);
+                    JTextField registerUsernameField = new JTextField();
+                    registerUsernameField.setBackground(Color.darkGray);
+                    registerUsernameField.setForeground(Color.WHITE);
+
+                    JLabel registerPasswordLabel = new JLabel("Password:");
+                    registerPasswordLabel.setForeground(Color.WHITE);
+                    JPasswordField registerPasswordField = new JPasswordField();
+                    registerPasswordField.setBackground(Color.darkGray);
+                    registerPasswordField.setForeground(Color.WHITE);
+
+                    JButton registerButton = new JButton("Register");
+                    registerButton.setBackground(Color.GREEN);
+                    registerButton.setForeground(Color.WHITE);
+
+                    registerPanel.add(registerUsernameLabel);
+                    registerPanel.add(registerUsernameField);
+                    registerPanel.add(registerPasswordLabel);
+                    registerPanel.add(registerPasswordField);
+                    registerPanel.add(new JLabel()); // Empty space for alignment
+                    registerPanel.add(registerButton);
+
+                    registerFrame.add(registerPanel);
+                    registerFrame.setVisible(true);
+
+                    registerButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            String newUsername = registerUsernameField.getText();
+                            String newPassword = new String(registerPasswordField.getPassword());
+
+                            // Check if username already exists
+                            boolean usernameExists = false;
+                            for (String[] user : users) {
+                                if (user[0].equals(newUsername)) {
+                                    usernameExists = true;
+                                    break;
+                                }
+                            }
+
+                            if (usernameExists) {
+                                JOptionPane.showMessageDialog(registerFrame, "Username already exists. Try a different one.", "Error", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                // Save new user to the list and file
+                                users.add(new String[]{newUsername, newPassword});
+                                saveUserData();
+                                JOptionPane.showMessageDialog(registerFrame, "Registration Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                registerFrame.dispose();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    // Main Menu Class
+    static class MainMenu {
+        
         JFrame frame;
 
         MainMenu() {
