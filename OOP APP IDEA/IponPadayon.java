@@ -47,10 +47,14 @@ public class IponPadayonTest {
     static class LoginScreen {
         
         LoginScreen() {
-            JFrame frame = new JFrame("Login");
+            JFrame frame = new JFrame("IponPadayon");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(300, 150);
             frame.setLocationRelativeTo(null);
+            frame.setResizable(false);
+            
+            ImageIcon logo = new ImageIcon("iponpadayon.png");
+            frame.setIconImage(logo.getImage());
 
             JPanel loginPanel = new JPanel();
             loginPanel.setLayout(new GridLayout(3, 2));
@@ -119,24 +123,28 @@ public class IponPadayonTest {
                     registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     registerFrame.setSize(300, 200);
                     registerFrame.setLocationRelativeTo(null);
+                    registerFrame.setResizable(false);
+                    
+                    ImageIcon logo = new ImageIcon("iponpadayon.png");
+                    registerFrame.setIconImage(logo.getImage());
 
                     JPanel registerPanel = new JPanel(new GridLayout(3, 2));
-                    registerPanel.setBackground(Color.DARK_GRAY);
+                    registerPanel.setBackground(new Color(107,189,142));
 
                     JLabel registerUsernameLabel = new JLabel("Username:");
                     registerUsernameLabel.setForeground(Color.WHITE);
                     JTextField registerUsernameField = new JTextField();
-                    registerUsernameField.setBackground(Color.darkGray);
-                    registerUsernameField.setForeground(Color.WHITE);
+                    registerUsernameField.setBackground(Color.WHITE);
+                    registerUsernameField.setForeground(Color.darkGray);
 
                     JLabel registerPasswordLabel = new JLabel("Password:");
                     registerPasswordLabel.setForeground(Color.WHITE);
                     JPasswordField registerPasswordField = new JPasswordField();
-                    registerPasswordField.setBackground(Color.darkGray);
-                    registerPasswordField.setForeground(Color.WHITE);
+                    registerPasswordField.setBackground(Color.WHITE);
+                    registerPasswordField.setForeground(Color.darkGray);
 
                     JButton registerButton = new JButton("Register");
-                    registerButton.setBackground(Color.GREEN);
+                    registerButton.setBackground(new Color(64,237,139));
                     registerButton.setForeground(Color.WHITE);
 
                     registerPanel.add(registerUsernameLabel);
@@ -304,6 +312,7 @@ public class IponPadayonTest {
             frame.setLocationRelativeTo(null);
             frame.setLayout(null);
             frame.getContentPane().setBackground(new Color(107, 189, 142));
+            frame.setResizable(false);
 
             ImageIcon logo = new ImageIcon("iponpadayon.png");
             frame.setIconImage(logo.getImage());
@@ -385,6 +394,7 @@ public class IponPadayonTest {
             frame.setLocationRelativeTo(null);
             frame.setLayout(new BorderLayout());
             frame.getContentPane().setBackground(new Color(107, 189, 142));
+            frame.setResizable(false);
 
             ImageIcon logo = new ImageIcon("iponpadayon.png");
             frame.setIconImage(logo.getImage());
