@@ -1,8 +1,8 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
 
 public class IponPadayonTest {
 
@@ -10,9 +10,9 @@ public class IponPadayonTest {
     private static double expenses = 0;
     private static ArrayList<String> expenseList = new ArrayList<>();
     private static ArrayList<String[]> users = new ArrayList<>();  // Stores [username, password]
+    private static String currentUser = ""; // To store the current logged-in user's username
 
     public static void main(String[] args) {
-        loadData();
         loadUserData();  // Load user data from userdata.txt
         SwingUtilities.invokeLater(LoginScreen::new); // Show login screen first
     }
@@ -43,22 +43,49 @@ public class IponPadayonTest {
         }
     }
 
+    // Load data for a specific user (wallet and expenses)
+    private static void loadData() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(currentUser + "_data.txt"))) {
+            wallet = Double.parseDouble(reader.readLine());
+            expenses = Double.parseDouble(reader.readLine());
+            String line;
+            while ((line = reader.readLine()) != null) {
+                expenseList.add(line);
+            }
+        } catch (IOException e) {
+            System.out.println("No data found for user: " + currentUser + ". Starting fresh.");
+        }
+    }
+
+    // Save data for a specific user (wallet and expenses)
+    private static void saveData() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(currentUser + "_data.txt"))) {
+            writer.println(wallet);
+            writer.println(expenses);
+            for (String expense : expenseList) {
+                writer.println(expense);
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving data: " + e.getMessage());
+        }
+    }
+
     // Login Screen Class
     static class LoginScreen {
-        
+
         LoginScreen() {
             JFrame frame = new JFrame("IponPadayon");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(300, 150);
             frame.setLocationRelativeTo(null);
             frame.setResizable(false);
-            
+
             ImageIcon logo = new ImageIcon("iponpadayon.png");
             frame.setIconImage(logo.getImage());
 
             JPanel loginPanel = new JPanel();
             loginPanel.setLayout(new GridLayout(3, 2));
-            loginPanel.setBackground(new Color(107,189,142));
+            loginPanel.setBackground(new Color(107, 189, 142));
 
             JLabel userLabel = new JLabel("Username:");
             userLabel.setForeground(Color.WHITE);
@@ -73,11 +100,11 @@ public class IponPadayonTest {
             passField.setForeground(Color.BLACK);
 
             JButton loginButton = new JButton("Login");
-            loginButton.setBackground(new Color(64,237,139));
+            loginButton.setBackground(new Color(64, 237, 139));
             loginButton.setForeground(Color.WHITE);
 
             JButton signUpButton = new JButton("Sign Up");
-            signUpButton.setBackground(new Color(64,237,139));
+            signUpButton.setBackground(new Color(64, 237, 139));
             signUpButton.setForeground(Color.WHITE);
 
             loginPanel.add(userLabel);
@@ -101,6 +128,8 @@ public class IponPadayonTest {
                     for (String[] user : users) {
                         if (user[0].equals(username) && user[1].equals(password)) {
                             isAuthenticated = true;
+                            currentUser = username; // Set the current user
+                            loadData(); // Load user's specific data
                             break;
                         }
                     }
@@ -124,12 +153,12 @@ public class IponPadayonTest {
                     registerFrame.setSize(300, 200);
                     registerFrame.setLocationRelativeTo(null);
                     registerFrame.setResizable(false);
-                    
+
                     ImageIcon logo = new ImageIcon("iponpadayon.png");
                     registerFrame.setIconImage(logo.getImage());
 
                     JPanel registerPanel = new JPanel(new GridLayout(3, 2));
-                    registerPanel.setBackground(new Color(107,189,142));
+                    registerPanel.setBackground(new Color(107, 189, 142));
 
                     JLabel registerUsernameLabel = new JLabel("Username:");
                     registerUsernameLabel.setForeground(Color.WHITE);
@@ -144,7 +173,7 @@ public class IponPadayonTest {
                     registerPasswordField.setForeground(Color.darkGray);
 
                     JButton registerButton = new JButton("Register");
-                    registerButton.setBackground(new Color(64,237,139));
+                    registerButton.setBackground(new Color(64, 237, 139));
                     registerButton.setForeground(Color.WHITE);
 
                     registerPanel.add(registerUsernameLabel);
@@ -190,7 +219,7 @@ public class IponPadayonTest {
 
     // Main Menu Class
     static class MainMenu {
-        
+
         JFrame frame;
 
         MainMenu() {
@@ -288,7 +317,7 @@ public class IponPadayonTest {
             return Math.round(amount * 100.0) / 100.0;
         }
     }
-
+    
     static class WalletDetails {
 
         JFrame frame;
@@ -535,33 +564,6 @@ public class IponPadayonTest {
             frame.add(bottomPanel, BorderLayout.SOUTH);
 
             frame.setVisible(true);
-        }
-    }
-
-    // Save data to file
-    private static void saveData() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("data.txt"))) {
-            writer.println(wallet);
-            writer.println(expenses);
-            for (String expense : expenseList) {
-                writer.println(expense);
-            }
-        } catch (IOException e) {
-            System.out.println("Error saving data: " + e.getMessage());
-        }
-    }
-
-    // Load data from file
-    private static void loadData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
-            wallet = Double.parseDouble(reader.readLine());
-            expenses = Double.parseDouble(reader.readLine());
-            String line;
-            while ((line = reader.readLine()) != null) {
-                expenseList.add(line);
-            }
-        } catch (IOException e) {
-            System.out.println("No previous data found. Starting fresh.");
         }
     }
 }
