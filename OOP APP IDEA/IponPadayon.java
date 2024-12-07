@@ -217,12 +217,12 @@ public class IponPadayonTest {
         }
     }
 
-    // Main Menu Class
-    static class MainMenu {
+    // Actions Class
+    static class Actions {
 
         JFrame frame;
 
-        MainMenu() {
+        Actions() {
             frame = new JFrame("IponPadayon");
             frame.setSize(450, 350);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -236,23 +236,24 @@ public class IponPadayonTest {
 
             // Buttons to interact with the app
             JButton updateMoneyButton = new JButton("Update Wallet");
-            updateMoneyButton.setBounds(125, 34, 200, 50);
+            updateMoneyButton.setBounds(125, 59, 200, 60);
             updateMoneyButton.setBackground(new Color(64, 237, 139));
             updateMoneyButton.setFocusable(false);
 
             JButton addExpenseButton = new JButton("+ Add Expense");
-            addExpenseButton.setBounds(125, 117, 200, 50);
+            addExpenseButton.setBounds(125, 180, 200, 60);
             addExpenseButton.setBackground(new Color(64, 164, 237));
             addExpenseButton.setFocusable(false);
 
-            JButton summaryButton = new JButton("Financial Summary");
-            summaryButton.setBounds(125, 200, 200, 50);
-            summaryButton.setBackground(new Color(255, 255, 255));
-            summaryButton.setFocusable(false);
+            JButton backButton = new JButton("Back");
+            backButton.setFocusable(false);
+            backButton.setBounds(0, 260, 100, 50);
+            backButton.setBackground(new Color(29, 51, 38));
+            backButton.setForeground(Color.WHITE);
 
             frame.add(updateMoneyButton);
             frame.add(addExpenseButton);
-            frame.add(summaryButton);
+            frame.add(backButton);
 
             // Action listeners for the buttons
             updateMoneyButton.addActionListener(e -> {
@@ -297,9 +298,9 @@ public class IponPadayonTest {
                 }
             });
 
-            summaryButton.addActionListener(e -> {
+            backButton.addActionListener(e -> {
                 frame.dispose();
-                new WalletDetails();
+                new MainMenu();
             });
 
             frame.setVisible(true);
@@ -318,11 +319,11 @@ public class IponPadayonTest {
         }
     }
     
-    static class WalletDetails {
+    static class MainMenu {
 
         JFrame frame;
 
-        WalletDetails() {
+        MainMenu() {
 
             // Load and resize icons
             ImageIcon walletIcon = new ImageIcon(
@@ -386,25 +387,25 @@ public class IponPadayonTest {
             viewExpensesButton.setFocusable(false);
             viewExpensesButton.setBounds(290, 260, 150, 50);
 
-            JButton backButton = new JButton("Back");
-            backButton.setFocusable(false);
-            backButton.setBounds(0, 260, 100, 50);
-            backButton.setBackground(new Color(29, 51, 38));
-            backButton.setForeground(Color.WHITE);
+            JButton actionButton = new JButton("Actions");
+            actionButton.setFocusable(false);
+            actionButton.setBounds(0, 260, 100, 50);
+            actionButton.setBackground(new Color(29, 51, 38));
+            actionButton.setForeground(Color.WHITE);
 
             // Adding components to the frame
             frame.add(mainPanel);
             frame.add(viewExpensesButton);
-            frame.add(backButton);
+            frame.add(actionButton);
 
             viewExpensesButton.addActionListener(e -> {
                 frame.dispose();
                 new ExpenseList();
             });
 
-            backButton.addActionListener(e -> {
+            actionButton.addActionListener(e -> {
                 frame.dispose();
-                new MainMenu();
+                new Actions();
             });
 
             // Display the frame
@@ -549,18 +550,18 @@ public class IponPadayonTest {
             }
 
             // Back button
-            JButton backButton = new JButton("Back");
-            backButton.setFocusable(false);
-            backButton.setBackground(new Color(29, 51, 38));
-            backButton.setForeground(Color.WHITE);
-            backButton.addActionListener(e -> {
+            JButton actionButton = new JButton("Back");
+            actionButton.setFocusable(false);
+            actionButton.setBackground(new Color(29, 51, 38));
+            actionButton.setForeground(Color.WHITE);
+            actionButton.addActionListener(e -> {
                 frame.dispose();
-                new WalletDetails();
+                new MainMenu();
             });
 
             JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             bottomPanel.setBackground(new Color(107, 189, 142));
-            bottomPanel.add(backButton);
+            bottomPanel.add(actionButton);
             frame.add(bottomPanel, BorderLayout.SOUTH);
 
             frame.setVisible(true);
