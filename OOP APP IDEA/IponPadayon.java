@@ -5,48 +5,29 @@ import javax.swing.*;
 
 
 class IponPadayonTest {
-
     private static ArrayList<User> users = new ArrayList<>();  // Stores User objects
-
     private static User currentUser  = null; // To store the current logged-in user
 
-
     public static void main(String[] args) {
-
         loadUserData();  // Load user data from userdata.txt
-
         SwingUtilities.invokeLater(LoginScreen::new); // Show login screen first
-
     }
 
 
     // User class to hold user data
-
     static class User {
-
         String username;
-
         String password;
-
         double wallet;
-
         double expenses;
-
         ArrayList<String> expenseList;
 
-
         User(String username, String password) {
-
             this.username = username;
-
             this.password = password;
-
             this.wallet = 0;
-
             this.expenses = 0;
-
             this.expenseList = new ArrayList<>();
-
         }
 
     }
@@ -55,77 +36,46 @@ class IponPadayonTest {
     // Load user data from userdata.txt
 
     private static void loadUserData() {
-
         try (BufferedReader reader = new BufferedReader(new FileReader("userdata.txt"))) {
-
             String line;
 
             while ((line = reader.readLine()) != null) {
-
                 String[] user = line.split(":");
-
                 if (user.length == 2) {
-
                     users.add(new User(user[0], user[1]));  // Store each user as a User object
-
                 }
-
             }
-
         } catch (IOException e) {
-
             System.out.println("No previous user data found. Starting fresh.");
-
         }
 
     }
 
 
     // Save user data to userdata.txt
-
     private static void saveUserData() {
-
         try (PrintWriter writer = new PrintWriter(new FileWriter("userdata.txt"))) {
-
             for (User  user : users) {
-
                 writer.println(user.username + ":" + user.password);  // Save username and password separated by ":"
-
             }
-
         } catch (IOException e) {
-
             System.out.println("Error saving user data: " + e.getMessage());
-
         }
-
     }
 
 
     // Load data for a specific user (wallet and expenses)
-
     private static void loadData() {
-
         try (BufferedReader reader = new BufferedReader(new FileReader(currentUser .username + "_data.txt"))) {
-
             currentUser .wallet = Double.parseDouble(reader.readLine());
-
             currentUser .expenses = Double.parseDouble(reader.readLine());
-
             String line;
-
             while ((line = reader.readLine()) != null) {
-
                 currentUser .expenseList.add(line);
-
             }
-
         } catch (IOException e) {
-
             System.out.println("No data found for user: " + currentUser .username + ". Starting fresh.");
-
         }
-
     }
 
 
@@ -1211,6 +1161,15 @@ changePasswordButton.addActionListener(e -> {
     if (!newPass.equals(confirmPass)) {
 
         JOptionPane.showMessageDialog(changePasswordFrame, "New password does not match.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        return;
+
+    }
+    
+    // Check if new password is the same as current password.
+    if (newPass.equals(currentPass)) {
+
+        JOptionPane.showMessageDialog(changePasswordFrame, "New password must be different from current password.", "Error", JOptionPane.ERROR_MESSAGE);
 
         return;
 
