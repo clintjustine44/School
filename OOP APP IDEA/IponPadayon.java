@@ -4,7 +4,7 @@ import java.util.*;
 import javax.swing.*;
 
 
-public class IponPadayonTest {
+class IponPadayonTest {
 
     private static ArrayList<User> users = new ArrayList<>();  // Stores User objects
 
