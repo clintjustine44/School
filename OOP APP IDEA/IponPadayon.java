@@ -4,7 +4,7 @@ import java.util.*;
 import javax.swing.*;
 
 
-class IponPadayonTest {
+class IponPadayon {
     private static ArrayList<User> users = new ArrayList<>();  // Stores User objects
     private static User currentUser  = null; // To store the current logged-in user
 
@@ -66,15 +66,15 @@ class IponPadayonTest {
 
     // Load data for a specific user (wallet and expenses)
     private static void loadData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(currentUser .username + "_data.txt"))) {
-            currentUser .wallet = Double.parseDouble(reader.readLine());
-            currentUser .expenses = Double.parseDouble(reader.readLine());
+        try (BufferedReader reader = new BufferedReader(new FileReader(currentUser.username + "_data.txt"))) {
+            currentUser.wallet = Double.parseDouble(reader.readLine());
+            currentUser.expenses = Double.parseDouble(reader.readLine());
             String line;
             while ((line = reader.readLine()) != null) {
-                currentUser .expenseList.add(line);
+                currentUser.expenseList.add(line);
             }
         } catch (IOException e) {
-            System.out.println("No data found for user: " + currentUser .username + ". Starting fresh.");
+            System.out.println("No data found for user: " + currentUser.username + ". Starting fresh.");
         }
     }
 
@@ -83,7 +83,7 @@ class IponPadayonTest {
 
     private static void saveData() {
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter(currentUser .username + "_data.txt"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(currentUser.username + "_data.txt"))) {
 
             writer.println(currentUser .wallet);
 
@@ -267,43 +267,46 @@ class IponPadayonTest {
             loginButton.addActionListener(e -> {
 
                 String username = userField.getText();
-
+            
                 String password = new String(passField.getPassword());
-
-
+            
+            
                 boolean isAuthenticated = false;
-
+            
+            
                 for (User  user : users) {
-
+            
                     if (user.username.equals(username) && user.password.equals(password)) {
-
+            
                         isAuthenticated = true;
-
+            
                         currentUser  = user; // Set the current user
-
+            
+                        currentUser .expenseList.clear(); // Clear the expense list
+            
                         loadData(); // Load user's specific data
-
+            
                         break;
-
+            
                     }
-
+            
                 }
-
-
+            
+            
                 if (isAuthenticated) {
-
+            
                     JOptionPane.showMessageDialog(frame, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
+            
                     frame.dispose();
-
+            
                     SwingUtilities.invokeLater(MainMenu::new); // Open the main menu
-
+            
                 } else {
-
+            
                     JOptionPane.showMessageDialog(frame, "Incorrect username or password.", "Error", JOptionPane.ERROR_MESSAGE);
-
+            
                 }
-
+            
             });
 
 
@@ -897,12 +900,14 @@ class IponPadayonTest {
 
             logoutMenuItem.addActionListener(e -> {
 
+                currentUser.expenseList.clear(); // Clear the expense list
+            
                 JOptionPane.showMessageDialog(frame, "Logout Successful!", "Settings", JOptionPane.INFORMATION_MESSAGE);
-
+            
                 frame.dispose(); // Close main menu
-
+            
                 SwingUtilities.invokeLater(LoginScreen::new); // Re-open login screen
-
+            
             });
 
 
@@ -1291,7 +1296,7 @@ static class ExpenseList {
 
         // Populate expense items
 
-        for (String expense : currentUser .expenseList) {
+        for (String expense : currentUser.expenseList) {
 
             JPanel expenseItemPanel = new JPanel();
 
