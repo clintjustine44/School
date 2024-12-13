@@ -55,7 +55,6 @@ public class MainMenu {
     private static void queueNodeMenu(Scanner scan) {
         QueueNode qn = new QueueNode();
         String choice;
-        Object value;
         do {
             System.out.println("\nQueue Node\n1. Enqueue\n2. Dequeue\n3. Peek\n4. Display\nX. Back to Main Menu");
             System.out.print("\nChoose an option: ");
@@ -63,12 +62,18 @@ public class MainMenu {
 
             switch (choice) {
                 case "1":
+                    Object item;
+
                     System.out.print("Enter an item: ");
-                    qn.enqueue(scan.nextLine());
-                    System.out.println("Item enqueued successfully");
+                    item = scan.nextLine().trim();
+                    while(item.equals("")){
+                        System.out.print("Input cannot be empty. Please enter an item: ");
+                        item = scan.nextLine().trim();
+                    }
+                    System.out.println(qn.enqueue(item) ? "Item enqueued successfully" : "");
                     break;
                 case "2":
-                    System.out.println(qn.dequeue() ? "Item dequeued successfully" : "Dequeue failed");
+                    System.out.println(qn.dequeue() ? "Item dequeued successfully" : "");
                     break;
                 case "3":
                     System.out.println("First: " + qn.peek());
@@ -88,7 +93,6 @@ public class MainMenu {
     private static void queueArrayMenu(Scanner scan) {
         QueueArray qa = new QueueArray();
         String choice;
-        Object item;
         int size;
         do {
             System.out.println("\nQueue Array\n1. Enter array size\n2. Enqueue\n3. Dequeue\n4. Peek\n5. Display\n6. Get count\nX. Back to Main Menu");
@@ -117,9 +121,16 @@ public class MainMenu {
                     }
                     break;
                 case "2":
+                    Object item;
+
                     System.out.print("Enter an item: ");
-                    item = scan.nextLine();
-                    System.out.println(qa.enqueue(item) ? "Item enqueued successfully" : "");
+                    item = scan.nextLine().trim();
+                    while(item.equals("")){
+                        System.out.print("Input cannot be empty. Please enter an item: ");
+                        item = scan.nextLine().trim();
+                    }
+
+                    System.out.println(qa.enqueue(item) ? "Item enqueued successfully" : "Queue is already full.");
                     break;
                 case "3":
                     System.out.println(qa.dequeue() ? "Dequeued successfully" : "Dequeue failed");
@@ -145,7 +156,6 @@ public class MainMenu {
     private static void nodeListMenu(Scanner scan) {
         NodeList nl = new NodeList();
         String choice;
-        Object value;
         int location;
         do {
             System.out.println("\nQueue Node\n1. Add\n2. Delete\n3. Peek\n4. Display\n5. Get count\nX. Back to Main Menu");
@@ -154,9 +164,16 @@ public class MainMenu {
 
             switch (choice) {
                 case "1":
+                    Object item;
+
                     System.out.print("Enter an item: ");
-                    nl.add(new Node(scan.nextLine()));
-                    System.out.println("Item enqueued successfully");
+                    item = scan.nextLine().trim();
+                    while(item.equals("")){
+                        System.out.print("Input cannot be empty. Please enter an item: ");
+                        item = scan.nextLine().trim();
+                    }
+
+                    System.out.println(nl.add(new Node(item)) ? "Item enqueued successfully" : "Queue is already full.");
                     break;
                 case "2":
                     boolean validInput = false;
@@ -199,17 +216,38 @@ public class MainMenu {
             System.out.println("\nInfix To Postfix\n1. Convert Infix to Postfix\n2. Evaluate Postfix\nX. Back to Main Menu");
             System.out.print("\nChoose an option: ");
             choice = scan.nextLine().trim().toUpperCase();
-
+    
             switch (choice) {
                 case "1":
                     System.out.print("Enter an infix expression: ");
-                    infix = scan.nextLine();
+                    infix = scan.nextLine().trim();
+                    while (infix.isEmpty() || !infix.matches("[0-9+*/()-]*")) {
+                        if (infix.isEmpty()) {
+                            System.out.print("Expression cannot be empty. Please enter an expression: ");
+                        } else {
+                            System.out.print("Expression contains invalid characters. Please enter a valid expression: ");
+                        }
+                        infix = scan.nextLine().trim();
+                    }
                     System.out.println("Postfix: " + itp.convertInfix(infix));
                     break;
                 case "2":
                     System.out.print("Enter a postfix expression: ");
-                    postfix = scan.nextLine();
-                    System.out.println("Result: " + itp.evaluatePostfix(postfix));
+                    postfix = scan.nextLine().trim();
+                    while (postfix.isEmpty() || !postfix.matches("[0-9+*/()-]*")) {
+                        if (postfix.isEmpty()) {
+                            System.out.print("Expression cannot be empty. Please enter an expression: ");
+                        } else {
+                            System.out.print("Expression contains invalid characters. Please enter a valid expression: ");
+                        }
+                        postfix = scan.nextLine().trim();
+                    }
+                    // Assuming evaluatePostfix can handle empty or invalid expressions
+                    try {
+                        System.out.println("Result: " + itp.evaluatePostfix(postfix));
+                    } catch (Exception e) {
+                        System.out.println("Error evaluating postfix expression: " + e.getMessage());
+                    }
                     break;
                 case "X":
                     System.out.println("Returning to Main Menu...");
@@ -379,9 +417,13 @@ public class MainMenu {
                     }
                     break;
                 case "2":
-                    System.out.print("Enter an item: ");
-                    item = scan.nextLine();
-                    System.out.println(sa.push(item) ? "Item pushed successfully" : "");
+                item = scan.nextLine().trim();
+                    while(item.equals("")){
+                        System.out.print("Input cannot be empty. Please enter an item: ");
+                        item = scan.nextLine().trim();
+                    }
+
+                    System.out.println(sa.push(item) ? "Item pushed successfully" : "Queue is already full.");
                     break;
                 case "3":
                     System.out.println(sa.pop() ? "Popped successfully" : "Popped failed");
@@ -415,9 +457,14 @@ public class MainMenu {
 
             switch (choice) {
                 case "1":
-                    System.out.print("Enter an item: ");
-                    item = scan.nextLine();
-                    System.out.println(sl.push(item) ? "Item pushed successfully" : "");
+                    item = scan.nextLine().trim();
+
+                    while(item.equals("")){
+                        System.out.print("Input cannot be empty. Please enter an item: ");
+                        item = scan.nextLine().trim();
+                    }
+
+                System.out.println(sl.push(item) ? "Item pushed successfully" : "Queue is already full.");
                     break;
                 case "2":
                     System.out.println(sl.pop() ? "Popped successfully" : "Popped failed");
@@ -511,26 +558,62 @@ public class MainMenu {
     private static void largestSmallestMenu(Scanner scan) {
         LargestSmallest ls = new LargestSmallest();
         String choice;
-        int x,y,z;
+        int x = 0, y = 0, z = 0; // Initialize variables
         do {
             System.out.println("\nLargest and Smallest\n1. Enter 3 numbers\nX. Back to Main Menu");
             System.out.print("\nChoose an option: ");
             choice = scan.nextLine().trim().toUpperCase();
-
+    
             switch (choice) {
                 case "1":
                     System.out.println("Enter 3 numbers:");
-                    try {
+                    // Input for Number 1
+                    while (true) {
                         System.out.print("Number 1: ");
-                        x = Integer.parseInt(scan.nextLine().trim());
-                        System.out.print("Number 2: ");
-                        y = Integer.parseInt(scan.nextLine().trim());
-                        System.out.print("Number 3: ");
-                        z = Integer.parseInt(scan.nextLine().trim());
-                        ls.findLargeSmall(x, y, z);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter valid integers.");
+                        String input = scan.nextLine().trim();
+                        if (input.isEmpty()) {
+                            System.out.println("Input cannot be empty. Please enter a valid integer.");
+                        } else {
+                            try {
+                                x = Integer.parseInt(input);
+                                break; // Exit the loop if input is valid
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input. Please enter a valid integer.");
+                            }
+                        }
                     }
+                    // Input for Number 2
+                    while (true) {
+                        System.out.print("Number 2: ");
+                        String input = scan.nextLine().trim();
+                        if (input.isEmpty()) {
+                            System.out.println("Input cannot be empty. Please enter a valid integer.");
+                        } else {
+                            try {
+                                y = Integer.parseInt(input);
+                                break; // Exit the loop if input is valid
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input. Please enter a valid integer.");
+                            }
+                        }
+                    }
+                    // Input for Number 3
+                    while (true) {
+                        System.out.print("Number 3: ");
+                        String input = scan.nextLine().trim();
+                        if (input.isEmpty()) {
+                            System.out.println("Input cannot be empty. Please enter a valid integer.");
+                        } else {
+                            try {
+                                z = Integer.parseInt(input);
+                                break; // Exit the loop if input is valid
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input. Please enter a valid integer.");
+                            }
+                        }
+                    }
+                    // Call the method to find the largest and smallest
+                    ls.findLargeSmall(x, y, z);
                     break;
                 case "X":
                     System.out.println("Returning to Main Menu...");
@@ -538,7 +621,6 @@ public class MainMenu {
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-            
         } while (!choice.equals("X"));
     }
 }
