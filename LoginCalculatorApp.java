@@ -72,10 +72,12 @@ public class LoginCalculatorApp {
         calcFrame.setSize(400, 500);
         calcFrame.setLocationRelativeTo(null);
 
+
         // Calculator panel
         JPanel calcPanel = new JPanel();
         calcPanel.setLayout(new BorderLayout());
         calcPanel.setBackground(Color.gray);
+
 
         // Display area for calculator
         JTextField display = new JTextField();
@@ -90,6 +92,7 @@ public class LoginCalculatorApp {
         buttonPanel.setLayout(new GridLayout(5, 4, 5, 5)); // Adjusted for 5 rows
         buttonPanel.setBackground(Color.DARK_GRAY);
 
+
         String[] buttons = {
                 "7", "8", "9", "/",
                 "4", "5", "6", "*",
@@ -97,6 +100,7 @@ public class LoginCalculatorApp {
                 "0", ".", "=", "+",
                 "C", "CE"
         };
+
 
         for (String text : buttons) {
             JButton button = new JButton(text);
@@ -117,7 +121,6 @@ public class LoginCalculatorApp {
                 button.setBackground(Color.DARK_GRAY);
                 button.setForeground(Color.WHITE);
             }
-
             buttonPanel.add(button);
 
             button.addActionListener(new ActionListener() {
@@ -140,7 +143,7 @@ public class LoginCalculatorApp {
                             display.setText("Error");
                         }
                     } else {
-                        display.setText(display.getText() + " " + command + " ");
+                        display.setText(display.getText() + command);
                     }
                 }
             });
@@ -151,40 +154,83 @@ public class LoginCalculatorApp {
         calcFrame.setVisible(true);
     }
 
+
     // Method to evaluate the mathematical expression
+
     private static String evaluateExpression(String expression) {
         try {
-            String[] tokens = expression.split(" ");
-            if (tokens.length != 3)
-                return "Error";
-            double num1 = Double.parseDouble(tokens[0]);
-            double num2 = Double.parseDouble(tokens[2]);
-            String operator = tokens[1];
-
-            double result;
-            switch (operator) {
-                case "+":
-                    result = num1 + num2;
-                    break;
-                case "-":
-                    result = num1 - num2;
-                    break;
-                case "*":
-                    result = num1 * num2;
-                    break;
-                case "/":
-                    if (num2 == 0)
-                        return "Error";
-                    result = num1 / num2;
-                    break;
-                default:
-                    return "Error";
-            }
-
-            // Return result as integer if possible, otherwise as a double with decimals.
-            return (result == (int) result) ? String.valueOf((int) result) : String.valueOf(result);
+            return String.valueOf(evaluatePostfix(infixToPostfix(expression)));
         } catch (Exception e) {
             return "Error";
         }
+    }
+
+
+    // Convert infix expression to postfix
+    private static String infixToPostfix(String expression) {
+        StringBuilder output = new StringBuilder();
+        Stack<Character> stack = new Stack<>();
+
+        for (char c : expression.toCharArray()) {
+            if (Character.isDigit(c) || c == '.') {
+                output.append(c);
+            } else {
+                output.append(' '); // Add space before operator
+                while (!stack.isEmpty() && precedence(c) <= precedence(stack.peek())) {
+                    output.append (stack.pop()).append(' ');
+                }
+                stack.push(c);
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            output.append(' ').append(stack.pop());
+        }
+        return output.toString().trim();
+    }
+
+
+    // Evaluate the postfix expression
+
+    private static double evaluatePostfix(String expression) {
+        Stack<Double> stack = new Stack<>();
+
+        for (String token : expression.split(" ")) {
+            if (token.isEmpty()) continue;
+            if (Character.isDigit(token.charAt(0))) {
+                stack.push(Double.parseDouble(token));
+            } else {
+                double b = stack.pop();
+                double a = stack.pop();
+                switch (token.charAt(0)) {
+                    case '+':
+                        stack.push(a + b);
+                        break;
+                    case '-':
+                        stack.push(a - b);
+                        break;
+                    case '*':
+                        stack.push(a * b);
+                        break;
+                    case '/':
+                        if (b == 0) throw new ArithmeticException("Division by zero");
+                        stack.push(a / b);
+                        break;
+                }
+            }
+        }
+        return stack.pop();
+    }
+
+
+    // Determine the precedence of operators
+
+    private static int precedence(char operator) {
+        if(operator == '*' || operator == '/')
+            return 2;
+        else if(operator == '+' || operator == '-')
+            return 1;
+        else
+            return 0;
     }
 }
