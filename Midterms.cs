@@ -20,23 +20,21 @@ namespace MidtermExamPt2
 
         static int MaxTreasure(int N, int M, int[][] grid)
         {
-            // Create a DP array to store the maximum treasure collected up to each cell
             int[][] dp = new int[N][];
             for (int i = 0; i < N; i++)
             {
                 dp[i] = new int[M];
             }
 
-            // Initialize the starting point
             dp[0][0] = grid[0][0];
 
-            // Fill the first row (can only come from the left)
+            // Fill the first row with treasure (can only come from the left)
             for (int j = 1; j < M; j++)
             {
                 dp[0][j] = dp[0][j - 1] + grid[0][j];
             }
 
-            // Fill the first column (can only come from above)
+            // Fill the first column treasure (can only come from above)
             for (int i = 1; i < N; i++)
             {
                 dp[i][0] = dp[i - 1][0] + grid[i][0];
